@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crisp Creator Studio | YouTube Packaging & Retention Architect</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2225%22 fill=%22%23ef4444%22/><polygon points=%2240,30 72,50 40,70%22 fill=%22white%22/></svg>">
+    <style>
+        input:focus, select:focus, textarea:focus {
+            border-color: #ef4444 !important;
+            box-shadow: none !important;
+            outline: none !important;
+        }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- Top Navigation / Header -->
+    <header class="bg-slate-900 border-b border-slate-800 text-white shadow-md py-4 px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div>
+            <h1 class="text-xl font-bold tracking-wide flex items-center gap-2 flex-wrap">
+                🎬 <span data-i18n="header_title">Crisp Creator Studio</span>
+                <span class="text-xs bg-red-600 text-white px-2 py-0.5 rounded uppercase tracking-wider font-semibold">YOUTUBE CTR &amp; RETENTION</span>
+            </h1>
+            <p class="text-xs text-slate-400 mt-0.5" data-i18n="header_sub">Turn rough video ideas into high-CTR titles, thumbnail blueprints, and 15-second retention hooks.</p>
+        </div>
+
+        <!-- Action Hub Buttons -->
+        <div class="flex items-center gap-2 flex-wrap justify-center sm:justify-end">
+            <button id="saveProjectBtn" type="button" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-1.5 rounded-lg text-xs font-medium transition flex items-center gap-1">
+                💾 <span data-i18n="btn_save">Save Blueprint</span>
+            </button>
+            <button id="loadProjectBtn" type="button" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-1.5 rounded-lg text-xs font-medium transition flex items-center gap-1">
+                📂 <span data-i18n="btn_load">Load Saved</span>
+            </button>
+            <button id="copyAllBtn" type="button" class="bg-red-600 hover:bg-red-500 text-white px-4 py-1.5 rounded-lg text-xs font-bold transition shadow flex items-center gap-1.5">
+                📋 <span data-i18n="btn_copy_all">Copy Full Blueprint</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Status Banner -->
+    <div id="status" class="bg-slate-900 text-red-400 border-b border-slate-800 text-xs px-6 py-1.5 text-center font-medium" role="status" aria-live="polite">
+        Crisp Creator Studio ready. Enter a rough video idea to generate high-CTR packaging.
+    </div>
+
+    <!-- Main Workspace -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- Left Column: Creator Input & Controls -->
+        <section class="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-2xl p-5 flex flex-col gap-5">
+            <div class="border-b border-slate-800 pb-4">
+                <h2 class="text-base font-bold text-white flex items-center justify-between">
+                    <span data-i18n="panel_input_title">1. Raw Video Concept</span>
+                    <span class="text-xs text-red-400 font-normal">AI Packaging Engine</span>
+                </h2>
+
+                <!-- Language & Format Row -->
+                <div class="grid grid-cols-2 gap-3 mt-3">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1" data-i18n="lbl_lang">Language / Wika:</label>
+                        <select id="langSelect" onchange="changeLanguage()" class="w-full border border-slate-700 rounded-lg p-2 text-sm bg-slate-950 text-slate-200">
+                            <option value="en" selected>English (Global)</option>
+                            <option value="ph">Taglish / Filipino (PH)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1" data-i18n="lbl_format">Video Format:</label>
+                        <select id="formatSelect" onchange="generateBlueprint()" class="w-full border border-slate-700 rounded-lg p-2 text-sm bg-slate-950 text-slate-200">
+                            <option value="long" selected>Long-Form (16:9)</option>
+                            <option value="shorts">YouTube Shorts (9:16)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Niche & Tone Row -->
+                <div class="grid grid-cols-2 gap-3 mt-3">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1" data-i18n="lbl_niche">Channel Niche:</label>
+                        <select id="nicheSelect" onchange="generateBlueprint()" class="w-full border border-slate-700 rounded-lg p-2 text-sm bg-slate-950 text-slate-200">
+                            <option value="howto">Tutorial / How-To</option>
+                            <option value="finance">Money / Side Hustle</option>
+                            <option value="tech">Tech / AI / Gaming</option>
+                            <option value="vlog">Storytime / Lifestyle</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1" data-i18n="lbl_hook_style">Hook Trigger:</label>
+                        <select id="hookStyleSelect" onchange="generateBlueprint()" class="w-full border border-slate-700 rounded-lg p-2 text-sm bg-slate-950 text-slate-200">
+                            <option value="mistake">Stop Making This Mistake</option>
+                            <option value="secret">Hidden Secret / Hack</option>
+                            <option value="challenge">Results / Case Study</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Brain Dump Input -->
+            <div class="space-y-2">
+                <div class="flex justify-between items-center">
+                    <label class="text-xs font-bold text-red-400 uppercase tracking-wider" data-i18n="lbl_topic">What is your video about? (Rough Notes)</label>
+                    <button type="button" onclick="loadSampleTopic()" class="text-[11px] text-slate-400 hover:text-white underline">
+                        🎲 <span data-i18n="btn_sample">Try Sample Idea</span>
+                    </button>
+                </div>
+                <textarea id="rawTopicInput" rows="4" placeholder="e.g. paano magtipid sa kuryente kahit naka-aircon buong araw, or why small YouTubers get stuck at 0 views..." class="w-full border border-slate-700 bg-slate-950 text-slate-100 rounded-xl p-3 text-sm leading-relaxed"></textarea>
+                
+                <button type="button" onclick="generateBlueprint()" class="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-2.5 px-4 rounded-xl text-sm shadow-lg transition flex items-center justify-center gap-2 mt-2">
+                    ✨ <span data-i18n="btn_generate">Generate Viral Packaging &amp; Script</span>
+                </button>
+            </div>
+
+            <!-- Thumbnail Customizer -->
+            <div class="space-y-3 pt-3 border-t border-slate-800">
+                <h3 class="text-xs font-bold text-red-400 uppercase tracking-wider" data-i18n="sec_thumb_tweak">2. Quick Thumbnail Text Tweak</h3>
+                <div class="grid grid-cols-2 gap-2">
+                    <input type="text" id="thumbBigText" placeholder="3-Word Hook (e.g. STOP DOING THIS)" oninput="updateThumbnailPreview()" class="border border-slate-700 bg-slate-950 text-slate-200 rounded-lg p-2 text-xs font-bold uppercase">
+                    <select id="thumbBgTheme" onchange="updateThumbnailPreview()" class="border border-slate-700 bg-slate-950 text-slate-200 rounded-lg p-2 text-xs">
+                        <option value="red-alert">🚨 High-Alert Red/Dark</option>
+                        <option value="money-green">💸 Cash / Growth Emerald</option>
+                        <option value="cyber-blue">⚡ Tech / Mystery Blue</option>
+                    </select>
+                </div>
+                <input type="text" id="creatorEmail" placeholder="Your Email (Optional - for Cloud Sync)" class="w-full border border-slate-700 bg-slate-950 text-slate-200 rounded-lg p-2 text-xs">
+            </div>
+        </section>
+
+        <!-- Right Column: Live YouTube Packaging & Script Output -->
+        <section class="lg:col-span-7 flex flex-col gap-5">
+
+            <!-- Card 1: Thumbnail Mockup + Title Variations -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+                <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                    <h2 class="text-sm font-bold text-white uppercase tracking-wider" data-i18n="out_packaging">🎯 High-CTR Packaging (Thumbnail &amp; Titles)</h2>
+                    <span id="formatBadge" class="text-[11px] bg-slate-800 text-slate-300 px-2.5 py-0.5 rounded-full font-semibold">16:9 Long-Form</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+                    <!-- Live Thumbnail Visual Mockup -->
+                    <div class="md:col-span-5">
+                        <div id="thumbCanvas" class="aspect-video w-full rounded-xl border-2 border-slate-700 bg-gradient-to-br from-red-950 via-slate-900 to-black p-4 flex flex-col justify-between relative overflow-hidden shadow-lg">
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-red-400 bg-black/60 px-2 py-0.5 rounded w-fit">THUMBNAIL CONCEPT</span>
+                            <div class="my-auto text-center">
+                                <p id="prevThumbText" class="text-xl sm:text-2xl font-black tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] uppercase leading-tight">
+                                    STOP DOING THIS!
+                                </p>
+                            </div>
+                            <div class="flex justify-between items-center text-[10px] text-slate-300">
+                                <span id="prevThumbVisual">Visual: Shocked face + Red Arrow</span>
+                                <span class="bg-black/80 text-white px-1.5 py-0.5 rounded font-mono" id="prevDurationBadge">10:24</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3 Clickable Title Options -->
+                    <div class="md:col-span-7 space-y-2">
+                        <p class="text-xs text-slate-400 font-medium" data-i18n="lbl_pick_title">Click any title to copy:</p>
+                        <div id="titlesList" class="space-y-2">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: 15-Second Retention Hook & Script Structure -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
+                <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                    <h2 class="text-sm font-bold text-white uppercase tracking-wider" data-i18n="out_script">🪝 15-Second Retention Hook &amp; Script Blueprint</h2>
+                    <button type="button" onclick="copySection('scriptOutput')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1 rounded border border-slate-700 transition">
+                        📋 Copy Script
+                    </button>
+                </div>
+                <textarea id="scriptOutput" rows="8" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-sm text-slate-200 leading-relaxed font-mono"></textarea>
+            </div>
+
+            <!-- Card 3: SEO Description & Tags -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
+                <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                    <h2 class="text-sm font-bold text-white uppercase tracking-wider" data-i18n="out_seo">🔍 SEO Description &amp; Search Tags</h2>
+                    <button type="button" onclick="copySection('seoOutput')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1 rounded border border-slate-700 transition">
+                        📋 Copy SEO
+                    </button>
+                </div>
+                <textarea id="seoOutput" rows="5" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-xs text-slate-300 leading-relaxed font-mono"></textarea>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800 py-4 text-center text-xs text-slate-400 mt-auto flex flex-col sm:flex-row justify-center items-center gap-2">
+        <span>Crisp Creator Studio • Part of the Crisp Suite Ecosystem</span>
+        <span class="hidden sm:inline">•</span>
+        <a href="https://ko-fi.com/handlevaultofficial" target="_blank" class="inline-flex items-center gap-1 font-semibold text-red-400 hover:underline">
+            ☕ Support on Ko-fi
+        </a>
+    </footer>
+
+    <script>
+        "use strict";
+
+        const STORAGE_KEY = "crisp_creator_studio_v1";
+        const API_BASE_URL = "http://localhost:8000"; // Update with live Render/Railway URL when deployed
+        const statusEl = document.getElementById("status");
+
+        const i18n = {
+            en: {
+                header_title: "Crisp Creator Studio",
+                header_sub: "Turn rough video ideas into high-CTR titles, thumbnail blueprints, and 15-second retention hooks.",
+                btn_save: "Save Blueprint",
+                btn_load: "Load Saved",
+                btn_copy_all: "Copy Full Blueprint",
+                panel_input_title: "1. Raw Video Concept",
+                lbl_lang: "Language / Wika:",
+                lbl_format: "Video Format:",
+                lbl_niche: "Channel Niche:",
+                lbl_hook_style: "Hook Trigger:",
+                lbl_topic: "What is your video about? (Rough Notes)",
+                btn_sample: "Try Sample Idea",
+                btn_generate: "Generate Viral Packaging & Script",
+                sec_thumb_tweak: "2. Quick Thumbnail Text Tweak",
+                out_packaging: "🎯 High-CTR Packaging (Thumbnail & Titles)",
+                lbl_pick_title: "Click any title to copy:",
+                out_script: "🪝 15-Second Retention Hook & Script Blueprint",
+                out_seo: "🔍 SEO Description & Search Tags"
+            },
+            ph: {
+                header_title: "Crisp Creator Studio",
+                header_sub: "Gawing high-CTR titles, thumbnail concepts, at 15-second retention hooks ang rough video ideas mo.",
+                btn_save: "I-save ang Blueprint",
+                btn_load: "I-load ang Saved",
+                btn_copy_all: "Kopyahin Lahat",
+                panel_input_title: "1. Rough Video Idea",
+                lbl_lang: "Wika / Language:",
+                lbl_format: "Format ng Video:",
+                lbl_niche: "Niche ng Channel:",
+                lbl_hook_style: "Estilo ng Hook:",
+                lbl_topic: "Tungkol saan ang video mo? (Kahit Taglish)",
+                btn_sample: "Subukan ang Sample",
+                btn_generate: "Gumawa ng Viral Packaging & Script",
+                sec_thumb_tweak: "2. I-edit ang Thumbnail Text",
+                out_packaging: "🎯 High-CTR Packaging (Thumbnail at Titles)",
+                lbl_pick_title: "I-click ang title para kopyahin:",
+                out_script: "🪝 15-Second Retention Hook at Script Flow",
+                out_seo: "🔍 SEO Description at Search Tags"
+            }
+        };
+
+        function setStatus(msg) {
+            if (statusEl) statusEl.textContent = msg;
+        }
+
+        function changeLanguage() {
+            const lang = document.getElementById("langSelect").value;
+            const dict = i18n[lang];
+            document.querySelectorAll("[data-i18n]").forEach(el => {
+                const key = el.getAttribute("data-i18n");
+                if (dict[key]) el.textContent = dict[key];
+            });
+            generateBlueprint();
+            setStatus(lang === "ph" ? "🇵🇭 Taglish / Filipino creator mode active." : "🇬🇧 Global English creator mode active.");
+        }
+
+        function loadSampleTopic() {
+            const lang = document.getElementById("langSelect").value;
+            const samples = {
+                en: "why small YouTubers stay stuck at 0 views and how to fix thumbnail CTR",
+                ph: "paano magtipid sa kuryente kahit naka-aircon buong araw sa bahay"
+            };
+            document.getElementById("rawTopicInput").value = samples[lang];
+            generateBlueprint();
+        }
+
+        function updateThumbnailPreview() {
+            const text = document.getElementById("thumbBigText").value.trim() || "STOP DOING THIS!";
+            const theme = document.getElementById("thumbBgTheme").value;
+            const canvas = document.getElementById("thumbCanvas");
+            document.getElementById("prevThumbText").textContent = text;
+
+            if (theme === "money-green") {
+                canvas.className = "aspect-video w-full rounded-xl border-2 border-emerald-600 bg-gradient-to-br from-emerald-950 via-slate-900 to-black p-4 flex flex-col justify-between relative overflow-hidden shadow-lg";
+            } else if (theme === "cyber-blue") {
+                canvas.className = "aspect-video w-full rounded-xl border-2 border-cyan-600 bg-gradient-to-br from-cyan-950 via-slate-900 to-black p-4 flex flex-col justify-between relative overflow-hidden shadow-lg";
+            } else {
+                canvas.className = "aspect-video w-full rounded-xl border-2 border-red-600 bg-gradient-to-br from-red-950 via-slate-900 to-black p-4 flex flex-col justify-between relative overflow-hidden shadow-lg";
+            }
+        }
+
+        function generateBlueprint() {
+            const lang = document.getElementById("langSelect").value;
+            const format = document.getElementById("formatSelect").value;
+            const hookStyle = document.getElementById("hookStyleSelect").value;
+            const rawTopic = document.getElementById("rawTopicInput").value.trim() || (lang === "ph" ? "paano magpalaki ng YouTube channel mula zero" : "how to grow a YouTube channel from zero");
+
+            // Update format badge & duration
+            document.getElementById("formatBadge").textContent = format === "shorts" ? "9:16 YouTube Shorts" : "16:9 Long-Form";
+            document.getElementById("prevDurationBadge").textContent = format === "shorts" ? "0:58" : "10:24";
+
+            // Generate 3 High-CTR Titles
+            let titles = [];
+            let thumbOverlay = "";
+            let visualGuide = "";
+
+            if (lang === "ph") {
+                titles = [
+                    `ITIGIL Mo Na 'To Kung Gusto Mong Malaman ang ${rawTopic.toUpperCase()}!`,
+                    `Bakit Walang Nagsasabi Nito Tungkol sa ${rawTopic}? (Proven Method)`,
+                    `Sinubukan Ko ang ${rawTopic} — Ito ang Totoong Nangyari!`
+                ];
+                thumbOverlay = hookStyle === "mistake" ? "MALI ANG GAWA MO!" : (hookStyle === "secret" ? "SIKRETO NABUKING!" : "GRABE ANG RESULTA!");
+                visualGuide = "Visual: Close-up reaction + High-contrast arrow/circle";
+            } else {
+                titles = [
+                    `STOP Doing This If You Want to Master ${rawTopic} (99% Fail)`,
+                    `The Hidden Truth About ${rawTopic} Nobody Talks About`,
+                    `I Tested ${rawTopic} for 30 Days — Here's What Actually Works`
+                ];
+                thumbOverlay = hookStyle === "mistake" ? "STOP DOING THIS!" : (hookStyle === "secret" ? "THE HIDDEN HACK" : "100% PROVEN");
+                visualGuide = "Visual: Split before/after + Bold 3-word contrast";
+            }
+
+            document.getElementById("thumbBigText").value = thumbOverlay;
+            document.getElementById("prevThumbVisual").textContent = visualGuide;
+            updateThumbnailPreview();
+
+            // Render Titles List
+            const titlesContainer = document.getElementById("titlesList");
+            titlesContainer.innerHTML = titles.map((t, idx) => `
+                <div onclick="copyText('${t.replace(/'/g, "\\'")}')" class="cursor-pointer bg-slate-950 hover:bg-slate-800 border border-slate-800 hover:border-red-500/50 p-2.5 rounded-lg text-xs text-slate-200 flex justify-between items-center gap-2 transition group">
+                    <span><strong class="text-red-400 mr-1">#${idx + 1}</strong> ${t}</span>
+                    <span class="text-[10px] text-slate-500 group-hover:text-red-400 shrink-0">Copy</span>
+                </div>
+            `).join("");
+
+            // Generate Script Blueprint
+            let script = "";
+            if (format === "shorts") {
+                script = lang === "ph"
+                    ? `[0:00 - 0:03] PATTERN-INTERRUPT HOOK:\n"Kung ginagawa mo pa rin 'to pagdating sa ${rawTopic}, nagsasayang ka lang ng oras—panoorin mo 'to hanggang dulo."\n\n[0:03 - 0:15] THE PROOF / CONTEXT:\n[B-ROLL: Quick screen recording o before/after comparison]\n"Karamihan kasi sa atin, akala natin sapat na ang basic setup. Pero ito talaga ang nagpapabago ng resulta..."\n\n[0:15 - 0:45] 3 RAPID VALUE STEPS:\n• Step 1: Ayusin agad ang pinaka-unang bagay na nakikita ng audience.\n• Step 2: Tanggalin ang mga walang kwentang intro na nakaka-bore.\n• Step 3: Gumamit ng malinaw na visual proof.\n\n[0:45 - 0:58] SEAMLESS LOOP ENDING:\n"...at 'yan mismo ang dahilan kung bakit dapat— [loops back to 0:00]"`
+                    : `[0:00 - 0:03] PATTERN-INTERRUPT HOOK:\n"If you're still struggling with ${rawTopic}, you're likely making this one fatal mistake."\n\n[0:03 - 0:15] OPEN LOOP & STAKES:\n[B-ROLL: Fast zoom-in + visual proof]\n"Most beginners focus on the wrong 90%, while top creators obsess over this exact 10%..."\n\n[0:15 - 0:45] 3 HIGH-RETENTION STEPS:\n• Step 1: Fix your primary hook before touching anything else.\n• Step 2: Cut all dead air every 3 seconds with a visual pattern interrupt.\n• Step 3: Deliver the payoff immediately.\n\n[0:45 - 0:58] END-LOOP TRIGGER:\n"...which brings us right back to why you need to— [loops cleanly to start]"`;
+            } else {
+                script = lang === "ph"
+                    ? `[0:00 - 0:15] HIGH-RETENTION HOOK (Validate the Click):\n"Sa video na 'to, ipapakita ko sa'yo ang eksaktong step-by-step kung paano gawin ang ${rawTopic} nang hindi nasasayang ang pagod at budget mo. Walang paligoy-ligoy—diretso tayo sa totoong gumagana."\n\n[0:15 - 0:45] THE PROBLEM & STAKES:\n[B-ROLL: Pakita ang karaniwang pagkakamali]\n"Bakit nga ba marami ang sumusuko agad dito? Dahil sinusunod nila ang lumang paraan..."\n\n[0:45 - 6:00] CORE VALUE CHAPTERS:\n• Chapter 1: Ang Foundation Setup (Bakit ito ang pinaka-importante)\n• Chapter 2: Live Walkthrough / Demo ng ${rawTopic}\n• Chapter 3: Pro Tips para mas mapabilis ang resulta\n\n[6:00 - END] NEXT-VIDEO BRIDGE (Session Time Booster):\n"Ngayong alam mo na ang ${rawTopic}, ang susunod mong kailangang ayusin ay nasa video na 'to sa screen..."`
+                    : `[0:00 - 0:15] HIGH-RETENTION HOOK (Validate the Click):\n"In the next 8 minutes, I'm going to show you the exact blueprint for ${rawTopic}—without the fluff or wasted guesswork. By the end of this video, you'll have a repeatable system you can apply today."\n\n[0:15 - 0:45] THE PROBLEM & OPEN LOOP:\n[B-ROLL: Highlight common failure point]\n"Here's why 90% of people hit a wall when trying to figure out ${rawTopic}..."\n\n[0:45 - 7:30] CORE CHAPTERS (Re-hook every 90 seconds):\n• Chapter 1: The Core Mistake Holding You Back\n• Chapter 2: Step-by-Step Execution for ${rawTopic}\n• Chapter 3: Real-World Optimization & Case Study\n\n[7:30 - END] END-SCREEN BRIDGE:\n"Now that you've mastered ${rawTopic}, the next bottleneck you'll face is right here in this video..."`;
+            }
+            document.getElementById("scriptOutput").value = script;
+
+            // Generate SEO Description & Tags
+            const cleanKeyword = rawTopic.toLowerCase().replace(/[^\w\s]/gi, "");
+            const seoText = lang === "ph"
+                ? `Sa video na ito, pag-uusapan natin ang buong detalye tungkol sa ${rawTopic} — step-by-step guide para sa mga Pinoy creators at beginners!\n\n⏱️ TIMESTAMPS:\n0:00 - Bakit Importante ang ${rawTopic}\n0:45 - Step 1: Tamang Setup\n3:15 - Step 2: Paano I-apply Agad\n6:00 - Bonus Tips & Final Verdict\n\n🏷️ TAGS:\n${cleanKeyword}, ${cleanKeyword} tagalog, ${cleanKeyword} philippines, paano ${cleanKeyword}, youtube tips philippines, crisp creator studio`
+                : `In this video, we break down everything you need to know about ${rawTopic} with a practical, step-by-step framework.\n\n⏱️ TIMESTAMPS:\n0:00 - Why ${rawTopic} Matters\n0:45 - Step 1: The Foundation\n3:15 - Step 2: Live Execution\n6:00 - Common Mistakes to Avoid\n\n🏷️ TAGS:\n${cleanKeyword}, ${cleanKeyword} tutorial, ${cleanKeyword} guide, how to ${cleanKeyword}, youtube growth tips, crisp creator studio`;
+
+            document.getElementById("seoOutput").value = seoText;
+            setStatus("✨ Viral YouTube Packaging & Script Blueprint generated!");
+        }
+
+        function copyText(text) {
+            navigator.clipboard.writeText(text);
+            setStatus(`📋 Copied to clipboard: "${text}"`);
+        }
+
+        function copySection(elementId) {
+            const val = document.getElementById(elementId).value;
+            navigator.clipboard.writeText(val);
+            setStatus("📋 Section copied to clipboard!");
+        }
+
+        document.getElementById("copyAllBtn").addEventListener("click", () => {
+            const fullText = `=== CRISP CREATOR STUDIO BLUEPRINT ===\n\n[THUMBNAIL TEXT]: ${document.getElementById("thumbBigText").value}\n\n[SCRIPT BLUEPRINT]:\n${document.getElementById("scriptOutput").value}\n\n[SEO DESCRIPTION & TAGS]:\n${document.getElementById("seoOutput").value}`;
+            navigator.clipboard.writeText(fullText);
+            setStatus("📋 Full YouTube Packaging & Script Blueprint copied!");
+        });
+
+        // Save & Load (LocalStorage + Optional Cloud Sync)
+        document.getElementById("saveProjectBtn").addEventListener("click", async () => {
+            const payload = {
+                topic: document.getElementById("rawTopicInput").value,
+                lang: document.getElementById("langSelect").value,
+                format: document.getElementById("formatSelect").value,
+                niche: document.getElementById("nicheSelect").value,
+                hookStyle: document.getElementById("hookStyleSelect").value,
+                thumbText: document.getElementById("thumbBigText").value,
+                thumbTheme: document.getElementById("thumbBgTheme").value,
+                script: document.getElementById("scriptOutput").value,
+                seo: document.getElementById("seoOutput").value,
+                email: document.getElementById("creatorEmail").value.trim()
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+            setStatus("💾 Blueprint saved to browser storage!");
+        });
+
+        document.getElementById("loadProjectBtn").addEventListener("click", () => {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) {
+                setStatus("⚠️ No saved blueprint found in browser.");
+                return;
+            }
+            const data = JSON.parse(raw);
+            document.getElementById("rawTopicInput").value = data.topic || "";
+            document.getElementById("langSelect").value = data.lang || "en";
+            document.getElementById("formatSelect").value = data.format || "long";
+            document.getElementById("nicheSelect").value = data.niche || "howto";
+            document.getElementById("hookStyleSelect").value = data.hookStyle || "mistake";
+            document.getElementById("thumbBigText").value = data.thumbText || "STOP DOING THIS!";
+            document.getElementById("thumbBgTheme").value = data.thumbTheme || "red-alert";
+            document.getElementById("scriptOutput").value = data.script || "";
+            document.getElementById("seoOutput").value = data.seo || "";
+            document.getElementById("creatorEmail").value = data.email || "";
+            updateThumbnailPreview();
+            setStatus("📂 Saved creator blueprint loaded!");
+        });
+
+        // Initialize default preview
+        generateBlueprint();
+    </script>
+</body>
+</html>
